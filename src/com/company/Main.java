@@ -1,8 +1,10 @@
 package com.company;
 
-import static com.company.Roman.*;
+import java.util.*;
+
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
 
     public static String calc(String input) {
 
@@ -13,9 +15,9 @@ public class Main {
         Roman romanA = null;
         Roman romanB = null;
 
-        int d = 0;
         int a = 0;
         int b = 0;
+        int d = 0;
 
         char c = 0;
         char[] chars = input.toCharArray();
@@ -42,17 +44,23 @@ public class Main {
                 break;
         }
 
+
+        switch (chars[0]) {
+            case '-':
+                input = input.replaceFirst("-", "");
+        }
         String[] strings = input.split(operator);
+
+
         String string1 = strings[0];
         String string2 = strings[1];
 
 
-
-
-        for ( Roman romans : Roman.values()){
-            if (romans.toString().equals(string1)){
+        for (Roman romans : Roman.values()) {
+            if (romans.toString().equals(string1)) {
                 romanA = Roman.valueOf(string1);
-            }if (romans.toString().equals(string2)){
+            }
+            if (romans.toString().equals(string2)) {
                 romanB = Roman.valueOf(string2);
             }
         }
@@ -66,8 +74,9 @@ public class Main {
         }
         if (romanA != null) {
 
-               a = romanA.getDigit();
-        }if ( romanA == null & romanB != null | romanA != null & romanB == null){
+            a = romanA.getDigit();
+        }
+        if (romanA == null & romanB != null | romanA != null & romanB == null) {
             throw new IllegalArgumentException("Необходимо использовать только арабские или римски цифры");
         }
 
@@ -83,10 +92,14 @@ public class Main {
             b = romanB.getDigit();
         }
 
-        if (a <= -11 | a >= 11){
+        if (chars[0] == '-') {
+            a = a * -1;
+        }
+
+        if (a <= -11 | a >= 11) {
             throw new IllegalArgumentException("Значение вне диапазона");
         }
-        if (b <= -11 | b >= 11){
+        if (b <= -11 | b >= 11) {
             throw new IllegalArgumentException("Значение вне диапазона");
         }
 
@@ -114,11 +127,14 @@ public class Main {
         }
 
 
-
         return answer;
     }
 
     public static void main(String[] args) {
-        System.out.println(calc("IX*IX"));
+
+        System.out.println("Введите пример в формате 5-2 или I+II : ");
+        String input = scanner.nextLine().replaceAll(" ", "");
+
+        System.out.println(calc(input));
     }
 }
